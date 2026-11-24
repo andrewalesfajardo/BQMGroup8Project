@@ -1,0 +1,2675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Do Active Funds Beat the S&amp;P 500 After Fees? · BQM Fall 2026 Team Playbook</title>
+  <style>
+    /* =====================================================================
+       DESIGN TOKENS & RESET (Self-contained, zero external dependencies)
+       ===================================================================== */
+    :root {
+      --navy-950: #0f172a;
+      --navy-900: #1e293b;
+      --navy-800: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --canvas: #f8fafc;
+      --white: #ffffff;
+
+      /* Pair 1: Drew & Phoebe (Indigo / Blue) */
+      --p1-main: #2563eb;
+      --p1-dark: #1e40af;
+      --p1-bg: #eff6ff;
+      --p1-border: #bfdbfe;
+
+      /* Pair 2: Stefanie & Alice (Emerald / Teal) */
+      --p2-main: #059669;
+      --p2-dark: #065f46;
+      --p2-bg: #ecfdf5;
+      --p2-border: #a7f3d0;
+
+      /* Pair 3: Xiao Ai & Anne (Amber / Orange) */
+      --p3-main: #d97706;
+      --p3-dark: #92400e;
+      --p3-bg: #fffbeb;
+      --p3-border: #fde68a;
+
+      /* All Pairs / Team (Slate / Purple) */
+      --all-main: #6366f1;
+      --all-dark: #3730a3;
+      --all-bg: #eef2ff;
+      --all-border: #c7d2fe;
+
+      /* Status accents */
+      --rose-main: #e11d48;
+      --rose-dark: #9f1239;
+      --rose-bg: #fff1f2;
+      --rose-border: #fecdd3;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--canvas);
+      color: var(--navy-950);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, p, ul, ol {
+      margin: 0;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--slate-100);
+      padding: 1px 5px;
+      border-radius: 5px;
+      color: var(--navy-900);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* =====================================================================
+       HEADER & LIVE PROGRESS BAR
+       ===================================================================== */
+    .site-header {
+      background: linear-gradient(135deg, var(--navy-950) 0%, var(--navy-900) 100%);
+      color: var(--white);
+      border-bottom: 1px solid #1e293b;
+      padding: 26px 0 22px;
+    }
+
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .header-title-col {
+      flex: 1 1 560px;
+      min-width: 0;
+    }
+
+    .course-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .badge-course {
+      background: rgba(99, 102, 241, 0.22);
+      color: #e0e7ff;
+      border: 1px solid rgba(165, 180, 252, 0.35);
+    }
+
+    .badge-today {
+      background: rgba(5, 150, 105, 0.22);
+      color: #a7f3d0;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+
+    .badge-penalty {
+      background: rgba(225, 29, 72, 0.22);
+      color: #fecdd3;
+      border: 1px solid rgba(251, 113, 133, 0.35);
+    }
+
+    .site-header h1 {
+      font-size: clamp(1.5rem, 2.8vw, 2.05rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .header-subtitle {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      margin-bottom: 10px;
+    }
+
+    .header-pairs-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12.5px;
+      color: #e2e8f0;
+    }
+
+    .pair-chip-dark {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: background-color 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--navy-950);
+    }
+
+    .btn-white:hover {
+      background: #f1f5f9;
+    }
+
+    .btn-ghost-dark {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-ghost-dark:hover {
+      background: rgba(225, 29, 72, 0.22);
+      border-color: rgba(251, 113, 133, 0.45);
+      color: #ffe4e6;
+    }
+
+    .grade-pill {
+      font-size: 12px;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
+    .grade-pill strong {
+      color: var(--white);
+    }
+
+    .progress-wrap {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
+
+    .progress-meta span:first-child {
+      color: #cbd5e1;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 11.5px;
+    }
+
+    .progress-count {
+      color: #6ee7b7;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6 0%, #10b981 55%, #f59e0b 100%);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    /* =====================================================================
+       HORIZONTAL MILESTONE STRIP (8 MILESTONES)
+       ===================================================================== */
+    .milestone-strip {
+      background: var(--white);
+      border-bottom: 1px solid var(--slate-200);
+      padding: 14px 0;
+    }
+
+    .milestone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-500);
+    }
+
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(128px, 1fr));
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .ms-card {
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid var(--slate-200);
+      background: var(--canvas);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .ms-date {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .ms-title {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--navy-950);
+    }
+
+    .ms-sub {
+      font-size: 11px;
+      color: var(--slate-600);
+      line-height: 1.25;
+    }
+
+    .ms-p1 { background: var(--p1-bg); border-color: var(--p1-border); }
+    .ms-p1 .ms-date { color: var(--p1-dark); }
+
+    .ms-p2 { background: var(--p2-bg); border-color: var(--p2-border); }
+    .ms-p2 .ms-date { color: var(--p2-dark); }
+
+    .ms-p3 { background: var(--p3-bg); border-color: var(--p3-border); }
+    .ms-p3 .ms-date { color: var(--p3-dark); }
+
+    .ms-all { background: var(--all-bg); border-color: var(--all-border); }
+    .ms-all .ms-date { color: var(--all-dark); }
+
+    .ms-urgent { background: var(--rose-bg); border-color: var(--rose-border); }
+    .ms-urgent .ms-date { color: var(--rose-dark); }
+
+    .ms-final { background: var(--navy-950); border-color: var(--navy-950); color: var(--white); }
+    .ms-final .ms-date { color: #fda4af; }
+    .ms-final .ms-title { color: var(--white); }
+    .ms-final .ms-sub { color: #cbd5e1; }
+
+    /* =====================================================================
+       STICKY TAB BAR
+       ===================================================================== */
+    .tab-nav {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--slate-200);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab-list {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    .tab-btn {
+      padding: 9px 15px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--slate-600);
+      font-size: 13.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      background: var(--slate-100);
+      color: var(--navy-950);
+    }
+
+    .tab-btn.active {
+      background: var(--navy-950);
+      color: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* =====================================================================
+       MAIN LAYOUT & SHARED COMPONENTS
+       ===================================================================== */
+    main {
+      padding: 28px 0 48px;
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.18s ease-out;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stack-lg > * + * {
+      margin-top: 22px;
+    }
+
+    .stack-md > * + * {
+      margin-top: 14px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-heading {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--navy-950);
+      margin-bottom: 4px;
+    }
+
+    .section-sub {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+    }
+
+    .print-only-heading {
+      display: none;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy-950);
+      border-bottom: 2px solid var(--navy-950);
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .pill-p1 { background: var(--p1-bg); color: var(--p1-dark); border-color: var(--p1-border); }
+    .pill-p2 { background: var(--p2-bg); color: var(--p2-dark); border-color: var(--p2-border); }
+    .pill-p3 { background: var(--p3-bg); color: var(--p3-dark); border-color: var(--p3-border); }
+    .pill-all { background: var(--all-bg); color: var(--all-dark); border-color: var(--all-border); }
+    .pill-dark { background: var(--navy-950); color: var(--white); }
+    .pill-rose { background: var(--rose-bg); color: var(--rose-dark); border-color: var(--rose-border); }
+    .pill-neutral { background: var(--slate-100); color: var(--navy-800); border-color: var(--slate-200); }
+
+    /* =====================================================================
+       TAB 1: GOAL, RQ CARDS, FAQ CALLOUTS, CHEAT SHEET, DECISION RULE
+       ===================================================================== */
+    .rq-box {
+      border-radius: var(--radius-md);
+      padding: 18px;
+      border: 1px solid var(--slate-200);
+    }
+
+    .rq-box-a {
+      background: var(--p1-bg);
+      border-color: var(--p1-border);
+    }
+
+    .rq-box-b {
+      background: var(--p2-bg);
+      border-color: var(--p2-border);
+    }
+
+    .rq-box h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 8px 0 6px;
+    }
+
+    .rq-box p {
+      font-size: 0.9rem;
+      color: var(--navy-800);
+    }
+
+    .ticker-list {
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy-950);
+    }
+
+    .faq-box {
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      border: 1px solid var(--slate-200);
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-fees {
+      border-left: 4px solid var(--p2-main);
+    }
+
+    .faq-treasury {
+      border-left: 4px solid var(--p1-main);
+    }
+
+    .faq-box h3 {
+      font-size: 0.98rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--navy-950);
+    }
+
+    .faq-box p {
+      font-size: 0.9rem;
+      color: var(--navy-800);
+    }
+
+    .cheat-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cheat-card h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy-950);
+    }
+
+    .cheat-card p {
+      font-size: 0.87rem;
+      color: var(--slate-600);
+    }
+
+    .decision-banner {
+      background: linear-gradient(135deg, var(--navy-950) 0%, #1e293b 100%);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      border: 1px solid #334155;
+    }
+
+    .decision-banner h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fcd34d;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+
+    .decision-banner p {
+      font-size: 0.95rem;
+      color: #f1f5f9;
+      line-height: 1.6;
+    }
+
+    /* =====================================================================
+       TAB 2: PAIR CARDS & SYNC CADENCE
+       ===================================================================== */
+    .pair-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--slate-200);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pair-card-head {
+      padding: 18px 20px;
+      color: var(--white);
+    }
+
+    .pair-card-head.p1 { background: linear-gradient(135deg, #1d4ed8, #2563eb); }
+    .pair-card-head.p2 { background: linear-gradient(135deg, #047857, #059669); }
+    .pair-card-head.p3 { background: linear-gradient(135deg, #b45309, #d97706); }
+
+    .pair-eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.9;
+    }
+
+    .pair-names {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin: 4px 0 3px;
+    }
+
+    .pair-focus {
+      font-size: 0.85rem;
+      opacity: 0.95;
+      font-weight: 500;
+    }
+
+    .pair-card-body {
+      padding: 18px 20px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .sub-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-500);
+      margin-bottom: 6px;
+    }
+
+    .pair-mission {
+      font-size: 0.88rem;
+      color: var(--navy-800);
+    }
+
+    .clean-list {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.86rem;
+      color: var(--navy-800);
+    }
+
+    .owner-split {
+      border-top: 1px solid var(--slate-200);
+      padding-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .owner-box {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--slate-200);
+      font-size: 0.84rem;
+    }
+
+    .owner-box.p1 { background: var(--p1-bg); border-color: var(--p1-border); }
+    .owner-box.p2 { background: var(--p2-bg); border-color: var(--p2-border); }
+    .owner-box.p3 { background: var(--p3-bg); border-color: var(--p3-border); }
+
+    .owner-box strong {
+      display: block;
+      color: var(--navy-950);
+      margin-bottom: 2px;
+    }
+
+    .sync-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sync-card h4 {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--navy-950);
+    }
+
+    .sync-card p {
+      font-size: 0.85rem;
+      color: var(--slate-600);
+    }
+
+    /* =====================================================================
+       TAB 3: SPRINT PLAN, FILTERS & INTERACTIVE CHECKLIST
+       ===================================================================== */
+    .info-banner {
+      background: var(--p3-bg);
+      border: 1px solid var(--p3-border);
+      border-left: 4px solid var(--p3-main);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      color: #78350f;
+    }
+
+    .filter-bar {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-500);
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      padding: 6px 11px;
+      border-radius: 8px;
+      border: 1px solid var(--slate-200);
+      background: var(--slate-100);
+      color: var(--navy-800);
+      font-size: 12.5px;
+      font-weight: 600;
+      transition: all 0.14s ease;
+    }
+
+    .filter-btn:hover {
+      background: var(--slate-200);
+    }
+
+    .filter-btn.active-sprint {
+      background: var(--navy-950);
+      color: var(--white);
+      border-color: var(--navy-950);
+    }
+
+    .filter-btn.active-owner {
+      background: var(--p1-main);
+      color: var(--white);
+      border-color: var(--p1-main);
+    }
+
+    .toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--navy-800);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sprint-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sprint-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--slate-200);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sprint-head.s1 { background: var(--p1-bg); }
+    .sprint-head.s2 { background: var(--p3-bg); }
+    .sprint-head.s3 { background: var(--all-bg); }
+    .sprint-head.s4 { background: var(--p2-bg); }
+
+    .sprint-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .sprint-title-row h3 {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--navy-950);
+    }
+
+    .sprint-goal {
+      font-size: 0.85rem;
+      color: var(--slate-600);
+    }
+
+    .sprint-stat {
+      text-align: right;
+      min-width: 110px;
+    }
+
+    .sprint-stat-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy-900);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .mini-track {
+      width: 110px;
+      height: 6px;
+      background: rgba(15, 23, 42, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-left: auto;
+    }
+
+    .mini-fill {
+      height: 100%;
+      background: var(--p2-main);
+      border-radius: 999px;
+      transition: width 0.2s ease;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 15px 20px;
+      border-top: 1px solid var(--slate-100);
+      cursor: pointer;
+      transition: background-color 0.12s ease;
+    }
+
+    .task-item:first-child {
+      border-top: none;
+    }
+
+    .task-item:hover {
+      background: #f8fafc;
+    }
+
+    .task-item.done {
+      background: #f8fafc;
+    }
+
+    .task-checkbox {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--p2-main);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .task-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .task-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .task-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--navy-950);
+      line-height: 1.4;
+    }
+
+    .task-item.done .task-title {
+      text-decoration: line-through;
+      color: var(--slate-500);
+    }
+
+    .task-desc {
+      font-size: 0.84rem;
+      color: var(--slate-600);
+      margin-top: 4px;
+    }
+
+    .task-item.done .task-desc {
+      color: #94a3b8;
+    }
+
+    .empty-state {
+      padding: 24px;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--slate-500);
+    }
+
+    /* =====================================================================
+       TAB 4: DELIVERABLES, SPEAKERS, TABLES, CHECKLIST
+       ===================================================================== */
+    .speaker-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 4px solid var(--navy-950);
+    }
+
+    .speaker-card.p1 { border-top-color: var(--p1-main); }
+    .speaker-card.p2 { border-top-color: var(--p2-main); }
+    .speaker-card.p3 { border-top-color: var(--p3-main); }
+
+    .speaker-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .speaker-num {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--slate-500);
+    }
+
+    .speaker-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy-950);
+    }
+
+    .speaker-topic {
+      font-size: 0.85rem;
+      color: var(--navy-800);
+    }
+
+    .speaker-cap {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--slate-600);
+      margin-top: auto;
+      padding-top: 4px;
+    }
+
+    .tip-note {
+      margin-top: 14px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      background: var(--all-bg);
+      border: 1px solid var(--all-border);
+      font-size: 0.85rem;
+      color: var(--all-dark);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      background: var(--white);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    thead th {
+      background: var(--slate-100);
+      color: var(--navy-900);
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--slate-200);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--slate-100);
+      vertical-align: top;
+      color: var(--navy-800);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--navy-950);
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--canvas);
+      border: 1px solid var(--slate-200);
+      font-size: 0.86rem;
+    }
+
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: var(--p2-bg);
+      color: var(--p2-dark);
+      border: 1px solid var(--p2-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* =====================================================================
+       TAB 5: RISKS & MISTAKES
+       ===================================================================== */
+    .risk-col-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--slate-200);
+    }
+
+    .risk-col-head.analytical { border-bottom-color: var(--rose-border); }
+    .risk-col-head.schedule { border-bottom-color: var(--p3-border); }
+
+    .risk-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .risk-card.analytical { border-left: 4px solid var(--rose-main); }
+    .risk-card.schedule { border-left: 4px solid var(--p3-main); }
+
+    .risk-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .risk-card h4 {
+      font-size: 0.93rem;
+      font-weight: 800;
+      color: var(--navy-950);
+    }
+
+    .risk-card p {
+      font-size: 0.85rem;
+      color: var(--slate-600);
+    }
+
+    .risk-card p strong {
+      color: var(--navy-900);
+    }
+
+    /* =====================================================================
+       FOOTER & MODAL
+       ===================================================================== */
+    .site-footer {
+      background: var(--white);
+      border-top: 1px solid var(--slate-200);
+      padding: 18px 0;
+      font-size: 12.5px;
+      color: var(--slate-500);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 60;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      max-width: 440px;
+      width: 100%;
+      padding: 22px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+      border: 1px solid var(--slate-200);
+    }
+
+    .modal-box h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .modal-box p {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      margin-bottom: 18px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .btn-cancel {
+      background: var(--white);
+      color: var(--navy-800);
+      border: 1px solid var(--slate-300);
+    }
+
+    .btn-cancel:hover {
+      background: var(--slate-100);
+    }
+
+    .btn-danger {
+      background: var(--rose-main);
+      color: var(--white);
+    }
+
+    .btn-danger:hover {
+      background: #be123c;
+    }
+
+    /* =====================================================================
+       RESPONSIVE BREAKPOINTS
+       ===================================================================== */
+    @media (max-width: 1024px) {
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .header-actions { align-items: flex-start; }
+    }
+
+    @media (max-width: 720px) {
+      .grid-2, .grid-3, .grid-4, .check-grid {
+        grid-template-columns: 1fr;
+      }
+      .card { padding: 16px; }
+      .sprint-stat { text-align: left; }
+      .mini-track { margin-left: 0; }
+    }
+
+    /* =====================================================================
+       PRINT / EXPORT PDF STYLES (Prints ALL 5 tabs cleanly in sequence)
+       ===================================================================== */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body {
+        background: #ffffff !important;
+        font-size: 11pt;
+      }
+      .no-print, .tab-nav, .filter-bar, .modal-backdrop {
+        display: none !important;
+      }
+      .site-header {
+        padding: 16px 0;
+      }
+      .milestone-grid {
+        grid-template-columns: repeat(4, 1fr);
+        overflow: visible;
+      }
+      .tab-panel {
+        display: block !important;
+        margin-bottom: 26px;
+        animation: none !important;
+      }
+      .print-only-heading {
+        display: block !important;
+      }
+      .card, .pair-card, .sprint-card, .cheat-card, .faq-box, .sync-card, .speaker-card, .risk-card, .decision-banner, .table-wrap {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+      }
+      .task-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================================
+       HEADER BANNER
+       ===================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-top">
+        <div class="header-title-col">
+          <div class="course-badge-row">
+            <span class="badge badge-course">NCCU IMBA · Business Quantitative Methods · Fall 2026 · Dr. Pei-Ting Chou</span>
+            <span class="badge badge-today">Today: Tue, Nov 24, 2026</span>
+            <span class="badge badge-penalty">Late Penalty: −10% / day</span>
+          </div>
+          <h1>Do Active Funds Beat the S&amp;P 500 After Fees?</h1>
+          <p class="header-subtitle">Active Equity &amp; Diversifying Funds vs. VOO · 6-Person Team Playbook (Nov 24 – Dec 21, 2026)</p>
+          <div class="header-pairs-line">
+            <span class="pair-chip-dark"><span class="dot" style="background:#60a5fa;"></span>Pair 1: Drew &amp; Phoebe</span>
+            <span class="pair-chip-dark"><span class="dot" style="background:#34d399;"></span>Pair 2: Stefanie &amp; Alice</span>
+            <span class="pair-chip-dark"><span class="dot" style="background:#fbbf24;"></span>Pair 3: Xiao Ai &amp; Anne</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="btn-row no-print">
+            <button id="printBtn" type="button" class="btn btn-white">
+              <span>&#128424;</span> Print / Export PDF
+            </button>
+            <button id="openResetBtn" type="button" class="btn btn-ghost-dark">
+              <span>&#8635;</span> Reset Checkboxes
+            </button>
+          </div>
+          <div class="grade-pill">
+            Group Project = <strong>45%</strong> (Proposal 5% &#10003; · Presentation 15% · Report 25%) &nbsp;|&nbsp; Final Exam = <strong>30%</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Progress Bar -->
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span>Overall Sprint Progress</span>
+          <span id="progressCount" class="progress-count">0 / 20 tasks completed (0%)</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       HORIZONTAL MILESTONE STRIP (ANCHORED TO TODAY: TUE, NOV 24, 2026)
+       ===================================================================== -->
+  <section class="milestone-strip">
+    <div class="container">
+      <div class="milestone-header">
+        <span>Key Deadlines &amp; Protective Freeze Gates (Nov 24 – Dec 21, 2026)</span>
+        <span>Window: Nov 2014 – Oct 2026 (144 Months)</span>
+      </div>
+      <div class="milestone-grid">
+        <div class="ms-card ms-p1">
+          <span class="ms-date">Nov 27–28</span>
+          <span class="ms-title">Data Lock &amp; 30-Min Kickoff</span>
+          <span class="ms-sub">Clean CSVs + Sat Nov 28 kickoff</span>
+        </div>
+        <div class="ms-card ms-p2">
+          <span class="ms-date">Dec 4 · Fri</span>
+          <span class="ms-title">Internal Draft Freeze</span>
+          <span class="ms-sub">Ahead of Sun Dec 6 AA2</span>
+        </div>
+        <div class="ms-card ms-p3">
+          <span class="ms-date">By Dec 5 · Sat</span>
+          <span class="ms-title">1-Hr Methodology Lesson</span>
+          <span class="ms-sub">Led by Xiao Ai (Pair 3)</span>
+        </div>
+        <div class="ms-card ms-urgent">
+          <span class="ms-date">Dec 6 · Sun</span>
+          <span class="ms-title">AA2 (RFM) Due</span>
+          <span class="ms-sub">Moodle deadline (crunch)</span>
+        </div>
+        <div class="ms-card ms-all">
+          <span class="ms-date">Dec 7 · Mon</span>
+          <span class="ms-title">Draft Results &amp; Peer Review</span>
+          <span class="ms-sub">Week 14 class milestone</span>
+        </div>
+        <div class="ms-card ms-p3">
+          <span class="ms-date">Dec 14 · Mon</span>
+          <span class="ms-title">Final Presentation (15%)</span>
+          <span class="ms-sub">10 min · 6 × ≤100 words</span>
+        </div>
+        <div class="ms-card ms-p2">
+          <span class="ms-date">Dec 18 · Fri</span>
+          <span class="ms-title">Hard Report Freeze</span>
+          <span class="ms-sub">Exam study weekend buffer</span>
+        </div>
+        <div class="ms-card ms-final">
+          <span class="ms-date">Dec 21 · Mon</span>
+          <span class="ms-title">Report (25%) &amp; Exam (30%)</span>
+          <span class="ms-sub">≤10 pp + closed-book exam</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       STICKY 5-TAB NAVIGATION BAR
+       ===================================================================== -->
+  <nav class="tab-nav no-print" aria-label="Playbook Sections">
+    <div class="container">
+      <div class="tab-list" role="tablist">
+        <button class="tab-btn active" data-tab="goal" role="tab">1. The Goal (Plain English)</button>
+        <button class="tab-btn" data-tab="pairs" role="tab">2. Pairs &amp; Analytical Roles</button>
+        <button class="tab-btn" data-tab="plan" role="tab">3. Detailed Sprint Plan (Nov 24 – Dec 21)</button>
+        <button class="tab-btn" data-tab="outputs" role="tab">4. Outputs, Data &amp; Success Criteria</button>
+        <button class="tab-btn" data-tab="risks" role="tab">5. Risks &amp; Mistakes to Avoid</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =====================================================================
+       MAIN CONTENT
+       ===================================================================== -->
+  <main class="container">
+
+    <!-- ===================================================================
+         TAB 1: THE GOAL (PLAIN ENGLISH)
+         =================================================================== -->
+    <section id="tab-goal" class="tab-panel active stack-lg">
+      <h2 class="print-only-heading">1. The Goal (Plain English)</h2>
+
+      <!-- Hero Business Decision Card -->
+      <div class="card stack-md">
+        <div>
+          <span class="pill pill-all" style="margin-bottom:8px;">Plain-English Overview · All 6 IMBA Teammates</span>
+          <h2 class="section-heading" style="font-size:1.35rem; margin-top:4px;">
+            Should an investor or advisor in Asia pay higher active fund fees, or simply hold VOO?
+          </h2>
+          <p style="margin-top:8px; color:var(--navy-800); font-size:0.95rem;">
+            <strong>The Decision-Maker:</strong> An investor or financial advisor in Asia deciding whether to pay ongoing fees for actively managed US mutual funds or simply hold <strong>VOO</strong> (Vanguard's S&amp;P 500 ETF, <strong>0.03%</strong> expense ratio), plus whether balanced, bond, and liquid-alternative funds meaningfully diversify an S&amp;P 500 holding. All 13 funds are evaluated on the exact same <strong>144-month window (November 2014 – October 2026)</strong>, set by the full history of our youngest fund (<strong>QMNIX</strong>).
+          </p>
+        </div>
+
+        <!-- RQ1 & RQ2 Side-by-Side -->
+        <div class="grid-2">
+          <div class="rq-box rq-box-a">
+            <span class="pill pill-p1">Part A · RQ1 (7 Active Equity Funds)</span>
+            <h3>Did any active equity fund earn statistically significant, fee-net alpha above zero vs. VOO?</h3>
+            <p>We test the null hypothesis <strong>H₀: α = 0</strong> using CAPM regressions with Newey-West standard errors. An interval that includes zero means no statistical evidence of outperformance.</p>
+            <div class="ticker-list">AGTHX · AWSHX · FCNTX · DODGX · SEEGX · FDGRX · VPMAX</div>
+          </div>
+
+          <div class="rq-box rq-box-b">
+            <span class="pill pill-p2">Part B · RQ2 (6 Diversifying Funds)</span>
+            <h3>Do balanced, income, bond, and liquid-alternative funds meaningfully diversify VOO?</h3>
+            <p>Evaluated by <strong>lower beta, lower annualized volatility, and smaller maximum drawdowns</strong> vs. VOO—not by beating the S&amp;P 500 (alpha is shown for context only).</p>
+            <div class="ticker-list">ABALX · AMECX · PIMIX · AQMIX · QMNIX · QAI</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Highlighted FAQ Callout Boxes -->
+      <div class="grid-2">
+        <div class="faq-box faq-fees">
+          <h3>Are Fees Included in Our Study?</h3>
+          <p>
+            <strong>Yes.</strong> Yahoo Finance monthly dividend-adjusted returns are already <strong>net of ongoing annual expense ratios</strong> (e.g., ~0.65%–1.00% for active funds vs. 0.03% for VOO). <strong>Front-end sales loads</strong> (which apply to AGTHX and AWSHX) and taxes are excluded, which actually makes our test <em>generous</em> to the active funds.
+          </p>
+        </div>
+        <div class="faq-box faq-treasury">
+          <h3>Why Isn't US Treasury (TB3MS) in the Title?</h3>
+          <p>
+            <strong>FRED TB3MS</strong> (3-month US Treasury bill, converted to a monthly rate) is our <em>measuring ruler</em> inside the CAPM and Sharpe ratio formulas to compute excess returns—not an investment product we are evaluating or recommending. It belongs in Methodology, not the headline.
+          </p>
+        </div>
+      </div>
+
+      <!-- Plain-English Finance Cheat Sheet (6 Cards) -->
+      <div>
+        <h3 class="section-heading">Plain-English Finance Cheat Sheet</h3>
+        <p class="section-sub" style="margin-bottom:14px;">Every quantitative metric in our project explained clearly for non-finance IMBA teammates.</p>
+        <div class="grid-3">
+          <div class="cheat-card">
+            <span class="pill pill-dark" style="align-self:flex-start;">1. Annualized Return (CAGR)</span>
+            <h4>How fast $1 compounds each year</h4>
+            <p>Computed from monthly returns as <code>(End ÷ Start)^(12 ÷ 144) − 1</code> and displayed visually with a <strong>growth-of-$1 chart vs. VOO</strong>.</p>
+          </div>
+
+          <div class="cheat-card">
+            <span class="pill pill-rose" style="align-self:flex-start;">2. Volatility &amp; Max Drawdown</span>
+            <h4>How bumpy the ride &amp; worst crash</h4>
+            <p><strong>Annualized Volatility</strong> is monthly SD × √12. <strong>Max Drawdown</strong> is the worst peak-to-trough percentage drop an investor actually lived through.</p>
+          </div>
+
+          <div class="cheat-card">
+            <span class="pill pill-p3" style="align-self:flex-start;">3. Sharpe Ratio</span>
+            <h4>Reward earned per unit of total risk</h4>
+            <p>Average monthly excess return above safe cash (<strong>TB3MS</strong>) divided by its standard deviation, × √12. Higher means better return per unit of stress.</p>
+          </div>
+
+          <div class="cheat-card">
+            <span class="pill pill-p2" style="align-self:flex-start;">4. Beta (Market Exposure)</span>
+            <h4>How much a fund moves with VOO</h4>
+            <p>The slope of our CAPM regression (with 95% CI). Beta ≈ 1.0 moves 1-for-1 with VOO; <strong>low beta</strong> signals strong diversification for Part B.</p>
+          </div>
+
+          <div class="cheat-card">
+            <span class="pill pill-p1" style="align-self:flex-start;">5. Alpha &amp; 95% Confidence Interval</span>
+            <h4>Return beyond market exposure</h4>
+            <p>Annualized CAPM intercept (<code>monthly × 12</code>). If the <strong>95% CI includes zero</strong>, there is <strong>no statistical evidence of outperformance</strong>.</p>
+          </div>
+
+          <div class="cheat-card">
+            <span class="pill pill-all" style="align-self:flex-start;">6. Newey-West SEs &amp; Power</span>
+            <h4>Protecting intervals &amp; reading limits</h4>
+            <p><strong>Newey-West SEs</strong> correct for autocorrelation/heteroskedasticity in monthly returns. With 144 months, power is limited: <em>"not significant"</em> means <em>"no evidence,"</em> not <em>"zero skill."</em></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decision Rule Highlight Box -->
+      <div class="decision-banner">
+        <h3>Managerial Decision Rule</h3>
+        <p>
+          <strong>Default to VOO</strong> unless a Part A active equity fund's annualized alpha has a <strong>95% confidence interval entirely above zero</strong>—and even then treat it as a <strong>flag, not proof</strong>, because testing 7 funds creates up to a <strong>~30% chance of at least one false positive</strong> at the 5% level. Judge <strong>Part B funds</strong> by <strong>beta and drawdown protection</strong>, never by beating VOO.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB 2: PAIRS & ANALYTICAL ROLES
+         =================================================================== -->
+    <section id="tab-pairs" class="tab-panel stack-lg">
+      <h2 class="print-only-heading">2. Pairs &amp; Analytical Roles</h2>
+
+      <!-- 3 Equal Pair Cards -->
+      <div class="grid-3">
+
+        <!-- PAIR 1: Drew & Phoebe -->
+        <article class="pair-card">
+          <div class="pair-card-head p1">
+            <div class="pair-eyebrow">Pair 1</div>
+            <div class="pair-names">Drew &amp; Phoebe</div>
+            <div class="pair-focus">Quant Engine, Data Integrity &amp; Part A (RQ1) Analysis</div>
+          </div>
+          <div class="pair-card-body">
+            <div class="stack-md">
+              <div>
+                <div class="sub-label">Plain-English Mission</div>
+                <p class="pair-mission">
+                  Own the raw 144-month dataset, verify every number against a second source, run the R/Python statistical pipeline, and deliver the Part A active equity regression results.
+                </p>
+              </div>
+              <div>
+                <div class="sub-label">Analytical Contributions</div>
+                <ul class="clean-list">
+                  <li>Pull monthly dividend-adjusted returns (Nov 2014 – Oct 2026) for all 13 funds + VOO from Yahoo Finance and TB3MS from FRED; cross-check against a second source.</li>
+                  <li>Audit the Part A selection rule (US-focused equity mandate, Oct 31, 2014 price, Oct 31, 2026 total net assets, max 2 per fund family, single share class).</li>
+                  <li>Compute CAGR, annualized volatility, Sharpe ratio, max drawdown, and CAPM regressions with Newey-West SEs (alpha, beta, 95% CIs) in R/Python and export clean tables for Pairs 2 &amp; 3.</li>
+                  <li>Maintain reproducible code and Pair 1's AI-prompt log.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="owner-split">
+              <div class="sub-label" style="margin-bottom:0;">Individual Ownership</div>
+              <div class="owner-box p1">
+                <strong>Phoebe · Report pp. 2–3 · Speaker 2 (≤100 words)</strong>
+                Data Sources, Fund Selection Rule, Cross-Check &amp; Metric Methodology.
+              </div>
+              <div class="owner-box p1">
+                <strong>Drew · Report pp. 4–5 · Speaker 3 (≤100 words)</strong>
+                Part A (RQ1) Active Equity Results &amp; CAPM Newey-West Regressions.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PAIR 2: Stefanie & Alice -->
+        <article class="pair-card">
+          <div class="pair-card-head p2">
+            <div class="pair-eyebrow">Pair 2</div>
+            <div class="pair-names">Stefanie &amp; Alice</div>
+            <div class="pair-focus">Part B (RQ2) Diversifiers, Limitations, Operations &amp; Decision Rule</div>
+          </div>
+          <div class="pair-card-body">
+            <div class="stack-md">
+              <div>
+                <div class="sub-label">Plain-English Mission</div>
+                <p class="pair-mission">
+                  Analyze how well the 6 diversifiers protect against VOO drawdowns, audit real-world investor frictions and limitations, manage the team timeline and 10-page integration, and write the final managerial recommendation.
+                </p>
+              </div>
+              <div>
+                <div class="sub-label">Analytical Contributions</div>
+                <ul class="clean-list">
+                  <li>Evaluate Part B (RQ2) diversifiers (ABALX, AMECX, PIMIX, AQMIX, QMNIX, QAI) on beta, volatility, Sharpe ratio, and max drawdown vs. VOO (showing alpha for context only).</li>
+                  <li>Audit real-world frictions &amp; limitations: survivorship/2026-size bias, shared fund families (Capital Group &amp; Fidelity pairs), mega-cap tech concentration (NVIDIA ~16% in FDGRX, ~12% in SEEGX), front-end loads (AGTHX, AWSHX), institutional minimums ($1M–$5M), single-factor style tilts, and 144-month power limits.</li>
+                  <li>Own the Decision Rule, managerial recommendations for an Asia investor/advisor, master schedule freezes, ≤10-page report assembly, and master AI-use statement/prompt appendix.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="owner-split">
+              <div class="sub-label" style="margin-bottom:0;">Individual Ownership</div>
+              <div class="owner-box p2">
+                <strong>Stefanie · Report pp. 7–8 · Speaker 5 (≤100 words)</strong>
+                Part B (RQ2) Diversifier Performance &amp; Study Limitations.
+              </div>
+              <div class="owner-box p2">
+                <strong>Alice · Report pp. 9–10 · Speaker 6 (≤100 words)</strong>
+                Decision Rule, Managerial Recommendations &amp; Final Synthesis.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PAIR 3: Xiao Ai & Anne -->
+        <article class="pair-card">
+          <div class="pair-card-head p3">
+            <div class="pair-eyebrow">Pair 3</div>
+            <div class="pair-names">Xiao Ai &amp; Anne</div>
+            <div class="pair-focus">Business Framing, Statistical Translation, Visuals &amp; Team Coaching</div>
+          </div>
+          <div class="pair-card-body">
+            <div class="stack-md">
+              <div>
+                <div class="sub-label">Plain-English Mission</div>
+                <p class="pair-mission">
+                  Frame the Asia investor story, independently sanity-check statistical outputs, turn regression tables into clear visuals and plain-English takeaways, design the presentation deck, and coach the team on methodology.
+                </p>
+              </div>
+              <div>
+                <div class="sub-label">Analytical Contributions</div>
+                <ul class="clean-list">
+                  <li>Frame the executive problem statement, Asia investor/advisor context, and RQ1/RQ2 narrative.</li>
+                  <li>Perform an independent sanity check on Pair 1's CAPM/Newey-West outputs and translate 95% CIs, statistical power, and the ~30% multiple-testing false-flag risk into accessible prose and charts (growth-of-$1, alpha CI forest plot, drawdown comparisons).</li>
+                  <li>Lead the <strong>1-Hour Project Methodology Lesson (Xiao Ai, by Dec 5)</strong> so every member can confidently answer Q&amp;A and prepare for the closed-book Dec 21 exam.</li>
+                  <li>Design the slide deck, edit all 6 speaking scripts to ≤100 words each, and run timed rehearsals.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="owner-split">
+              <div class="sub-label" style="margin-bottom:0;">Individual Ownership</div>
+              <div class="owner-box p3">
+                <strong>Anne · Report p. 1 · Speaker 1 (≤100 words)</strong>
+                Executive Summary, Asia Investor Context &amp; Research Questions.
+              </div>
+              <div class="owner-box p3">
+                <strong>Xiao Ai · Report p. 6 · Speaker 4 (≤100 words)</strong>
+                Statistical Interpretation (95% CIs, Power, Multiple-Testing Risk) &amp; Key Visual Takeaways.
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Team Sync & Knowledge-Sharing Cadence (4 Checkpoint Cards) -->
+      <div>
+        <h3 class="section-heading">Team Sync &amp; Knowledge-Sharing Cadence</h3>
+        <p class="section-sub" style="margin-bottom:14px;">Four structured checkpoints to align all three pairs and prevent Q&amp;A or exam knowledge silos.</p>
+        <div class="grid-4">
+          <div class="sync-card">
+            <span class="pill pill-p1" style="align-self:flex-start;">Sat, Nov 28 · 30 mins</span>
+            <h4>1. Data-Finalization &amp; Discussion Kickoff</h4>
+            <p><strong>Led by:</strong> Pair 1 (Drew &amp; Phoebe) &amp; Pair 2 (Alice).</p>
+            <p>Confirm locked 144-month dataset, review baseline CAPM/Part B numbers, and align on key storylines.</p>
+          </div>
+
+          <div class="sync-card">
+            <span class="pill pill-p2" style="align-self:flex-start;">Fri, Dec 4 · 20 mins</span>
+            <h4>2. Internal Draft Freeze Check</h4>
+            <p><strong>Led by:</strong> Pair 2 (Alice &amp; Stefanie).</p>
+            <p>Lock all draft tables, charts, and bulleted findings before the Sun, Dec 6 AA2 (RFM) deadline.</p>
+          </div>
+
+          <div class="sync-card">
+            <span class="pill pill-p3" style="align-self:flex-start;">By Sat, Dec 5 · 1 Hour</span>
+            <h4>3. Project Methodology Lesson</h4>
+            <p><strong>Led by:</strong> Xiao Ai (Pair 3).</p>
+            <p>Walkthrough of reading CAPM alpha/beta tables, 95% CIs, Newey-West SEs, and power for Dec 14 Q&amp;A &amp; Dec 21 closed-book exam.</p>
+          </div>
+
+          <div class="sync-card">
+            <span class="pill pill-all" style="align-self:flex-start;">Dec 10 &amp; Dec 12 · 2 × 30m</span>
+            <h4>4. Timed Presentation Rehearsals</h4>
+            <p><strong>Led by:</strong> Pair 3 (Anne &amp; Xiao Ai).</p>
+            <p>Two full stopwatch runs of the 6 × ≤100-word scripts plus 10-minute mock Q&amp;A drills.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB 3: DETAILED SPRINT PLAN (NOV 24 – DEC 21)
+         =================================================================== -->
+    <section id="tab-plan" class="tab-panel stack-md">
+      <h2 class="print-only-heading">3. Detailed Sprint Plan (Nov 24 – Dec 21)</h2>
+
+      <!-- LocalStorage Sync Reminder for Alice (Pair 2) -->
+      <div class="info-banner">
+        <strong>Note for Alice (Pair 2):</strong> Task checkboxes below save locally in this browser (<code>bqm_playbook_v3_tasks</code>). Because browser storage does not sync across different laptops, mirror live team progress in a shared <strong>Google Sheet or Notion board</strong> so all 6 members see updates in real time.
+      </div>
+
+      <!-- Interactive Filter Bar -->
+      <div class="filter-bar no-print">
+        <div class="filter-row">
+          <div class="filter-group">
+            <span class="filter-label">Sprint:</span>
+            <button class="filter-btn active-sprint" data-sprint="all">All Sprints</button>
+            <button class="filter-btn" data-sprint="s1">Sprint 1 (Nov 24–28)</button>
+            <button class="filter-btn" data-sprint="s2">Sprint 2 (Nov 29–Dec 7)</button>
+            <button class="filter-btn" data-sprint="s3">Sprint 3 (Dec 8–14)</button>
+            <button class="filter-btn" data-sprint="s4">Sprint 4 (Dec 15–21)</button>
+          </div>
+          <label class="toggle-wrap">
+            <input type="checkbox" id="hideDoneToggle" />
+            Hide completed tasks
+          </label>
+        </div>
+
+        <div class="filter-row" style="border-top:1px solid var(--slate-100); padding-top:10px;">
+          <div class="filter-group">
+            <span class="filter-label">Owner:</span>
+            <button class="filter-btn active-owner" data-owner="all">All Owners</button>
+            <button class="filter-btn" data-owner="p1">Pair 1 (Drew &amp; Phoebe)</button>
+            <button class="filter-btn" data-owner="p2">Pair 2 (Stefanie &amp; Alice)</button>
+            <button class="filter-btn" data-owner="p3">Pair 3 (Xiao Ai &amp; Anne)</button>
+            <button class="filter-btn" data-owner="allteam">All Pairs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dynamic Sprint List -->
+      <div id="sprintContainer" class="stack-md"></div>
+    </section>
+
+    <!-- ===================================================================
+         TAB 4: OUTPUTS, DATA & SUCCESS CRITERIA
+         =================================================================== -->
+    <section id="tab-outputs" class="tab-panel stack-lg">
+      <h2 class="print-only-heading">4. Outputs, Data &amp; Success Criteria</h2>
+
+      <!-- Section A: 4 Graded Deliverables Overview -->
+      <div class="card stack-md">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px;">
+          <div>
+            <h3 class="section-heading">A. Graded Deliverables Overview</h3>
+            <p class="section-sub">Group Final Project = 45% of course grade. Late submissions incur a <strong>−10% per day</strong> penalty.</p>
+          </div>
+          <span class="pill pill-rose">Late Penalty: −10% / day</span>
+        </div>
+
+        <div class="grid-4">
+          <div class="sync-card" style="background:var(--canvas);">
+            <span class="pill pill-p2" style="align-self:flex-start;">5% · Done Nov 16</span>
+            <h4>1. Project Proposal</h4>
+            <p>Research questions, 144-month data window, Part A selection rule, metrics, and initial limitations.</p>
+          </div>
+          <div class="sync-card" style="background:var(--canvas);">
+            <span class="pill pill-p3" style="align-self:flex-start;">15% · Due Dec 14</span>
+            <h4>2. Final Presentation</h4>
+            <p>10-minute team presentation (Week 15) with final slide deck and 6 × ≤100-word speaker scripts.</p>
+          </div>
+          <div class="sync-card" style="background:var(--canvas);">
+            <span class="pill pill-p1" style="align-self:flex-start;">25% · Due Dec 21</span>
+            <h4>3. Written Report (≤10 pp)</h4>
+            <p>Strictly at most 10 pages covering question, data, EDA, statistical analysis, recommendations, and limitations.</p>
+          </div>
+          <div class="sync-card" style="background:var(--canvas);">
+            <span class="pill pill-all" style="align-self:flex-start;">Required · Due Dec 21</span>
+            <h4>4. Code &amp; AI Appendix</h4>
+            <p>Reproducible R/Python analysis code plus mandatory AI-Use Statement &amp; Prompt Appendix (undisclosed AI = integrity violation).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section B: 6-Speaker Presentation Flow -->
+      <div class="card">
+        <h3 class="section-heading">B. 6-Speaker Presentation Flow (10 Minutes Total · Strict ≤100 Words Per Speaker)</h3>
+        <p class="section-sub" style="margin-bottom:14px;">Every team member speaks once with crisp, zero-fluff handoffs.</p>
+
+        <div class="grid-3">
+          <div class="speaker-card p3">
+            <div class="speaker-top">
+              <span class="speaker-num">Speaker 1</span>
+              <span class="pill pill-p3">Pair 3</span>
+            </div>
+            <div class="speaker-name">Anne</div>
+            <div class="speaker-topic">Hook, Asia Investor Context &amp; RQ1/RQ2</div>
+            <div class="speaker-cap">≤100 words · ~45–60s</div>
+          </div>
+
+          <div class="speaker-card p1">
+            <div class="speaker-top">
+              <span class="speaker-num">Speaker 2</span>
+              <span class="pill pill-p1">Pair 1</span>
+            </div>
+            <div class="speaker-name">Phoebe</div>
+            <div class="speaker-topic">144-Month Dataset, Selection Rule &amp; Methodology</div>
+            <div class="speaker-cap">≤100 words · ~45–60s</div>
+          </div>
+
+          <div class="speaker-card p1">
+            <div class="speaker-top">
+              <span class="speaker-num">Speaker 3</span>
+              <span class="pill pill-p1">Pair 1</span>
+            </div>
+            <div class="speaker-name">Drew</div>
+            <div class="speaker-topic">Part A (RQ1) Active Equity Alpha &amp; CAPM Results</div>
+            <div class="speaker-cap">≤100 words · ~45–60s</div>
+          </div>
+
+          <div class="speaker-card p3">
+            <div class="speaker-top">
+              <span class="speaker-num">Speaker 4</span>
+              <span class="pill pill-p3">Pair 3</span>
+            </div>
+            <div class="speaker-name">Xiao Ai</div>
+            <div class="speaker-topic">Statistical Meaning: 95% CIs, Power &amp; ~30% False-Flag Risk</div>
+            <div class="speaker-cap">≤100 words · ~45–60s</div>
+          </div>
+
+          <div class="speaker-card p2">
+            <div class="speaker-top">
+              <span class="speaker-num">Speaker 5</span>
+              <span class="pill pill-p2">Pair 2</span>
+            </div>
+            <div class="speaker-name">Stefanie</div>
+            <div class="speaker-topic">Part B (RQ2) Diversifiers &amp; Real-World Limitations</div>
+            <div class="speaker-cap">≤100 words · ~45–60s</div>
+          </div>
+
+          <div class="speaker-card p2">
+            <div class="speaker-top">
+              <span class="speaker-num">Speaker 6</span>
+              <span class="pill pill-p2">Pair 2</span>
+            </div>
+            <div class="speaker-name">Alice</div>
+            <div class="speaker-topic">Decision Rule &amp; Actionable Takeaway for Asia Investors</div>
+            <div class="speaker-cap">≤100 words · ~45–60s</div>
+          </div>
+        </div>
+
+        <div class="tip-note">
+          <strong>Pacing Tip:</strong> ~600 words total = ~5–6 minutes of calm speaking, leaving ~3–4 minutes of built-in buffer for visual pauses, chart walk-ins, and smooth transitions without rushing or risking a cutoff.
+        </div>
+      </div>
+
+      <!-- Section C: 10-Page Written Report Blueprint -->
+      <div class="card">
+        <h3 class="section-heading">C. 10-Page Written Report Blueprint</h3>
+        <p class="section-sub" style="margin-bottom:14px;">Strict ≤10-page cap (excluding code &amp; AI prompt appendix). Pair 2 (Stefanie &amp; Alice) handles final merge and page-limit lock on Dec 18.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Page(s)</th>
+                <th>Section Title</th>
+                <th>Owner &amp; Pair</th>
+                <th>Key Content</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">Page 1</td>
+                <td><strong>Executive Summary &amp; Business Question</strong></td>
+                <td><span class="pill pill-p3">Anne · Pair 3</span></td>
+                <td>Asia investor/advisor decision framing, VOO 0.03% benchmark, RQ1 &amp; RQ2, and headline takeaway.</td>
+              </tr>
+              <tr>
+                <td class="mono">Pages 2–3</td>
+                <td><strong>Data Sources, Selection Rule &amp; Methodology</strong></td>
+                <td><span class="pill pill-p1">Phoebe · Pair 1</span></td>
+                <td>Nov 2014 – Oct 2026 window, Oct 31, 2026 AUM / max-2-per-family rule, Yahoo Finance + second-source audit, FRED TB3MS conversion, and metric definitions.</td>
+              </tr>
+              <tr>
+                <td class="mono">Pages 4–5</td>
+                <td><strong>Part A (RQ1): Active Equity Results &amp; CAPM</strong></td>
+                <td><span class="pill pill-p1">Drew · Pair 1</span></td>
+                <td>CAGR, volatility, Sharpe, max drawdown, and CAPM Newey-West alpha/beta regression tables for all 7 active equity funds vs. VOO.</td>
+              </tr>
+              <tr>
+                <td class="mono">Page 6</td>
+                <td><strong>Statistical Interpretation &amp; Visual Takeaways</strong></td>
+                <td><span class="pill pill-p3">Xiao Ai · Pair 3</span></td>
+                <td>Growth-of-$1 chart, Alpha 95% CI forest plot, 144-month power limits ("no evidence" ≠ "no skill"), and ~30% multiple-testing false-flag risk.</td>
+              </tr>
+              <tr>
+                <td class="mono">Pages 7–8</td>
+                <td><strong>Part B (RQ2): Diversifiers &amp; Study Limitations</strong></td>
+                <td><span class="pill pill-p2">Stefanie · Pair 2</span></td>
+                <td>Beta, volatility, Sharpe, and drawdown comparison for all 6 diversifiers vs. VOO; survivorship/size bias, family clustering, NVIDIA weights, loads, and $1M–$5M minimums.</td>
+              </tr>
+              <tr>
+                <td class="mono">Pages 9–10</td>
+                <td><strong>Decision Rule &amp; Managerial Recommendations</strong></td>
+                <td><span class="pill pill-p2">Alice · Pair 2</span></td>
+                <td>Actionable Asia investor/advisor decision framework, default-to-VOO logic, role of Part B diversifiers, and closing synthesis.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section D: 15-Series Dataset Verification Table -->
+      <div class="card">
+        <h3 class="section-heading">D. 15-Series Dataset Verification Table (Nov 2014 – Oct 2026)</h3>
+        <p class="section-sub" style="margin-bottom:14px;">All 13 funds + VOO (Yahoo Finance, dividend-adjusted, net of expense ratios) + FRED TB3MS across 144 identical months.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Group</th>
+                <th>Ticker</th>
+                <th>Fund / Series &amp; Approx. 2026 Size</th>
+                <th>Family / Category</th>
+                <th>Key Audit Checks (Loads, Minimums &amp; Concentration)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill pill-dark">Benchmark</span></td>
+                <td class="mono">VOO</td>
+                <td>Vanguard S&amp;P 500 ETF (0.03% ER)</td>
+                <td>Vanguard · Passive ETF</td>
+                <td>S&amp;P 500 baseline hurdle for Part A &amp; comparison anchor for Part B.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-all">Risk-Free</span></td>
+                <td class="mono">TB3MS</td>
+                <td>FRED 3-Month US Treasury Bill</td>
+                <td>Federal Reserve (FRED)</td>
+                <td>Convert annualized rate to monthly rate for excess returns &amp; Sharpe.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p1">Part A (1)</span></td>
+                <td class="mono">AGTHX</td>
+                <td>Growth Fund of America ($336B)</td>
+                <td>Capital Group (1 of 2)</td>
+                <td>Carries front-end sales load (excluded from returns); shares parent with AWSHX.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p1">Part A (2)</span></td>
+                <td class="mono">AWSHX</td>
+                <td>Washington Mutual Investors ($217B)</td>
+                <td>Capital Group (2 of 2)</td>
+                <td>Carries front-end sales load; family cap excludes AIVSX &amp; ANCFX.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p1">Part A (3)</span></td>
+                <td class="mono">FCNTX</td>
+                <td>Fidelity Contrafund (≈$175–183B)</td>
+                <td>Fidelity (1 of 2)</td>
+                <td>Large-cap growth active fund; shares parent family with FDGRX.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p1">Part A (4)</span></td>
+                <td class="mono">DODGX</td>
+                <td>Dodge &amp; Cox Stock Fund (≈$115B)</td>
+                <td>Dodge &amp; Cox</td>
+                <td>Value-oriented US equity fund; AUM very close to SEEGX.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p1">Part A (5)</span></td>
+                <td class="mono">SEEGX</td>
+                <td>JPMorgan Large Cap Growth ($112.7B)</td>
+                <td>JPMorgan</td>
+                <td>Institutional class ($1M–$5M min); mega-cap tech tilt (~12% NVIDIA).</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p1">Part A (6)</span></td>
+                <td class="mono">FDGRX</td>
+                <td>Fidelity Growth Company (≈$94B)</td>
+                <td>Fidelity (2 of 2)</td>
+                <td>Heavy mega-cap tech concentration (~16% NVIDIA); shares parent with FCNTX.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p1">Part A (7)</span></td>
+                <td class="mono">VPMAX</td>
+                <td>Vanguard PRIMECAP (≈$91B)</td>
+                <td>Vanguard</td>
+                <td>Low-cost active US equity fund; AUM very close to FDGRX.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p2">Part B (1)</span></td>
+                <td class="mono">ABALX</td>
+                <td>American Balanced Fund</td>
+                <td>Capital Group · Balanced</td>
+                <td>Stock/bond blend; judge on beta, volatility &amp; drawdowns, not S&amp;P 500 alpha.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p2">Part B (2)</span></td>
+                <td class="mono">AMECX</td>
+                <td>Income Fund of America</td>
+                <td>Capital Group · Income</td>
+                <td>Income-oriented balanced fund; verify downside protection vs. VOO.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p2">Part B (3)</span></td>
+                <td class="mono">PIMIX</td>
+                <td>PIMCO Income Fund</td>
+                <td>PIMCO · Bond / Income</td>
+                <td>Institutional class ($1M–$5M min); bond diversifier vs. VOO.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p2">Part B (4)</span></td>
+                <td class="mono">AQMIX</td>
+                <td>AQR Managed Futures Strategy</td>
+                <td>AQR · Liquid Alternative</td>
+                <td>Trend-following liquid alternative; institutional class note; low/negative beta check.</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p2">Part B (5)</span></td>
+                <td class="mono">QMNIX</td>
+                <td>AQR Equity Market Neutral</td>
+                <td>AQR · Liquid Alternative</td>
+                <td><strong>Youngest fund</strong> — its full history anchors our Nov 2014 start date (144 mos).</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-p2">Part B (6)</span></td>
+                <td class="mono">QAI</td>
+                <td>IQ Hedge Multi-Strategy Tracker ETF</td>
+                <td>Multi-Strategy ETF</td>
+                <td>Surviving hedge-fund tracker ETF (sibling tracker ETFs were liquidated).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section E: Dr. Chou's A+ Success Checklist -->
+      <div class="card">
+        <h3 class="section-heading">E. Dr. Chou's A+ Success Checklist</h3>
+        <p class="section-sub">Directly aligned to the BQM Fall 2026 syllabus grading standards and learning objectives.</p>
+
+        <div class="check-grid">
+          <div class="check-item">
+            <span class="check-icon">&#10003;</span>
+            <div><strong>Sharp Business Framing:</strong> Clear Asia investor/advisor decision problem tied directly to VOO vs. active fees and portfolio diversification.</div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon">&#10003;</span>
+            <div><strong>Verified Data &amp; Selection Rule:</strong> Exact 144-month alignment, second-source return cross-check, and documented Oct 31, 2026 AUM / max-2-per-family rule.</div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon">&#10003;</span>
+            <div><strong>Accurate Statistical Judgment:</strong> Correct Newey-West CAPM CIs, distinguishing "no evidence of outperformance" from "zero skill," and flagging the ~30% false-positive risk.</div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon">&#10003;</span>
+            <div><strong>Honest Limitations:</strong> Transparent discussion of survivorship/2026-size bias, shared families, NVIDIA concentration, front-end loads, and institutional minimums.</div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon">&#10003;</span>
+            <div><strong>Clear Managerial Recommendation:</strong> Actionable default-to-VOO decision rule and practical role for Part B diversifiers written in crisp executive English.</div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon">&#10003;</span>
+            <div><strong>Reproducible Code &amp; Disclosed AI Use:</strong> Clean R/Python script that reproduces every number plus a complete AI-Use Statement &amp; Prompt Appendix.</div>
+          </div>
+          <div class="check-item" style="grid-column: 1 / -1;">
+            <span class="check-icon">&#10003;</span>
+            <div><strong>Strong Team Q&amp;A &amp; Disciplined Delivery:</strong> All 6 members ready to interpret CAPM and drawdown output in Q&amp;A (after Xiao Ai's Dec 5 lesson), 6 × ≤100-word presentation well under 10 minutes, and ≤10-page report uploaded with zero late penalty.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB 5: RISKS & MISTAKES TO AVOID
+         =================================================================== -->
+    <section id="tab-risks" class="tab-panel">
+      <h2 class="print-only-heading">5. Risks &amp; Mistakes to Avoid</h2>
+
+      <div class="grid-2">
+        <!-- Left Column: 6 Analytical & Finance Traps -->
+        <div class="stack-md">
+          <div class="risk-col-head analytical">
+            <span class="pill pill-rose">6 Traps</span>
+            <h3 class="section-heading" style="margin:0;">Analytical &amp; Finance Traps</h3>
+          </div>
+
+          <div class="risk-card analytical">
+            <div class="risk-top">
+              <h4>1. Misreading Non-Significant Alpha as "Zero Skill"</h4>
+              <span class="pill pill-p3">Pair 3: Xiao Ai &amp; Anne</span>
+            </div>
+            <p><strong>The Risk:</strong> Claiming a non-significant alpha proves managers have no skill, ignoring limited 144-month statistical power.</p>
+            <p><strong>How We Prevent It:</strong> Always state <em>"no statistical evidence of outperformance"</em> and interpret the width of each 95% CI.</p>
+          </div>
+
+          <div class="risk-card analytical">
+            <div class="risk-top">
+              <h4>2. Multiple-Testing False Flags</h4>
+              <span class="pill pill-all">Pair 1 &amp; Pair 3</span>
+            </div>
+            <p><strong>The Risk:</strong> Treating a single p &lt; 0.05 result across 7 Part A funds as proof of skill despite up to a ~30% chance of at least one false positive.</p>
+            <p><strong>How We Prevent It:</strong> Embed the multiple-testing warning directly into our Decision Rule—treat any positive CI as a flag, not proof.</p>
+          </div>
+
+          <div class="risk-card analytical">
+            <div class="risk-top">
+              <h4>3. Missing Newey-West SEs or TB3MS Mismatch</h4>
+              <span class="pill pill-p1">Pair 1: Drew &amp; Phoebe</span>
+            </div>
+            <p><strong>The Risk:</strong> Using plain OLS standard errors (falsely narrow CIs) or forgetting to convert annualized FRED TB3MS to a monthly rate.</p>
+            <p><strong>How We Prevent It:</strong> Pair 1 verifies monthly TB3MS conversion and Newey-West lags in code, backed by Xiao Ai's Nov 28 sanity check.</p>
+          </div>
+
+          <div class="risk-card analytical">
+            <div class="risk-top">
+              <h4>4. Judging Part B Diversifiers by S&amp;P 500 Alpha</h4>
+              <span class="pill pill-p2">Pair 2: Stefanie &amp; Alice</span>
+            </div>
+            <p><strong>The Risk:</strong> Evaluating balanced, bond, and liquid-alternative funds on whether they beat VOO, which misstates their role.</p>
+            <p><strong>How We Prevent It:</strong> Lead Part B with beta, annualized volatility, and maximum drawdown vs. VOO; label alpha as context only.</p>
+          </div>
+
+          <div class="risk-card analytical">
+            <div class="risk-top">
+              <h4>5. Ignoring Biases, Shared Families &amp; Tech Bets</h4>
+              <span class="pill pill-p2">Pair 2: Stefanie &amp; Alice</span>
+            </div>
+            <p><strong>The Risk:</strong> Omitting survivorship/2026-size bias, Capital Group/Fidelity parent overlap, mega-cap tech bets (NVIDIA ~16% in FDGRX, ~12% in SEEGX), front-end loads, or $1M–$5M minimums.</p>
+            <p><strong>How We Prevent It:</strong> Pair 2 builds a dedicated Limitations &amp; Frictions audit table matched directly to our proposal.</p>
+          </div>
+
+          <div class="risk-card analytical">
+            <div class="risk-top">
+              <h4>6. Unverified AI Code or Missing AI Appendix</h4>
+              <span class="pill pill-all">All Pairs · Audited by Pair 2</span>
+            </div>
+            <p><strong>The Risk:</strong> Submitting unchecked AI outputs ("the AI said so" is never a defense) or omitting the mandatory AI-Use Statement &amp; Prompt Appendix.</p>
+            <p><strong>How We Prevent It:</strong> Pair 1 &amp; Pair 3 verify all code outputs; Pair 2 maintains the team AI-Use Statement &amp; Prompt Appendix from Day 1.</p>
+          </div>
+        </div>
+
+        <!-- Right Column: 6 Schedule, Presentation & Teamwork Risks -->
+        <div class="stack-md">
+          <div class="risk-col-head schedule">
+            <span class="pill pill-p3">6 Risks</span>
+            <h3 class="section-heading" style="margin:0;">Schedule, Presentation &amp; Teamwork Risks</h3>
+          </div>
+
+          <div class="risk-card schedule">
+            <div class="risk-top">
+              <h4>1. Dec 6 AA2 (RFM) Colliding with Dec 7 Draft</h4>
+              <span class="pill pill-p2">Pair 2: Alice</span>
+            </div>
+            <p><strong>The Risk:</strong> Leaving Draft Results to the Dec 5–6 weekend creates a severe crunch with Applied Analytics Assignment 2 due Sun, Dec 6.</p>
+            <p><strong>How We Prevent It:</strong> Enforce our <strong>Fri, Dec 4 Internal Draft Freeze</strong> so Sat–Sun stays protected for AA2.</p>
+          </div>
+
+          <div class="risk-card schedule">
+            <div class="risk-top">
+              <h4>2. Pair 1 Data/Code Bottleneck Stalling Pairs 2 &amp; 3</h4>
+              <span class="pill pill-p1">Pair 1: Drew &amp; Phoebe</span>
+            </div>
+            <p><strong>The Risk:</strong> Delayed raw CSVs or baseline regressions block Part B analysis, chart building, and report drafting.</p>
+            <p><strong>How We Prevent It:</strong> Lock verified data &amp; baseline outputs by <strong>Nov 27–28</strong> and align in our <strong>30-min Sat, Nov 28 Kickoff</strong>.</p>
+          </div>
+
+          <div class="risk-card schedule">
+            <div class="risk-top">
+              <h4>3. Choppy 6-Speaker Handoffs Exceeding 10 Minutes</h4>
+              <span class="pill pill-p3">Pair 3: Anne &amp; Xiao Ai</span>
+            </div>
+            <p><strong>The Risk:</strong> Six speakers rambling or doing slow transitions easily push the team past the strict 10-minute presentation cap.</p>
+            <p><strong>How We Prevent It:</strong> Enforce the <strong>≤100-word script cap per speaker</strong> (~600 words total) across two timed rehearsals (Dec 10 &amp; Dec 12).</p>
+          </div>
+
+          <div class="risk-card schedule">
+            <div class="risk-top">
+              <h4>4. Knowledge Silos Hurting Q&amp;A &amp; Dec 21 Exam</h4>
+              <span class="pill pill-p3">Pair 3: Xiao Ai</span>
+            </div>
+            <p><strong>The Risk:</strong> Teammates outside the regression script get caught off guard in Dec 14 Q&amp;A or on the closed-book Dec 21 Final Exam (30% grade).</p>
+            <p><strong>How We Prevent It:</strong> Hold <strong>Xiao Ai's 1-Hour Methodology Lesson by Sat, Dec 5</strong> walking through our actual CAPM and drawdown tables.</p>
+          </div>
+
+          <div class="risk-card schedule">
+            <div class="risk-top">
+              <h4>5. Report Spilling Past 10 Pages or Inconsistent Style</h4>
+              <span class="pill pill-p2">Pair 2: Stefanie &amp; Alice</span>
+            </div>
+            <p><strong>The Risk:</strong> Six separate writers pasted together produce mismatched terminology, uneven charts, or over-length drafts.</p>
+            <p><strong>How We Prevent It:</strong> Follow the strict 10-page blueprint and let Pair 2 run a unified editorial &amp; formatting lock on Dec 18.</p>
+          </div>
+
+          <div class="risk-card schedule">
+            <div class="risk-top">
+              <h4>6. Final Report Eating Into Exam Study Weekend</h4>
+              <span class="pill pill-all">All Pairs</span>
+            </div>
+            <p><strong>The Risk:</strong> Polishing the 25% written report on Dec 19–20 steals study time from the closed-book, no-AI Final Exam (30%) on Dec 21.</p>
+            <p><strong>How We Prevent It:</strong> Enforce our <strong>Fri, Dec 18 Hard Freeze</strong> so Sat–Sun (Dec 19–20) is 100% free for exam preparation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       FOOTER
+       ===================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span><strong>Do Active Funds Beat the S&amp;P 500 After Fees?</strong> · Pair 1 (Drew &amp; Phoebe) · Pair 2 (Stefanie &amp; Alice) · Pair 3 (Xiao Ai &amp; Anne)</span>
+      <span>NCCU IMBA · Business Quantitative Methods · Fall 2026</span>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       RESET CONFIRMATION MODAL (No browser alert/confirm)
+       ===================================================================== -->
+  <div id="resetModal" class="modal-backdrop no-print" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+    <div class="modal-box">
+      <h3 id="resetModalTitle">Reset All Task Checkboxes?</h3>
+      <p>This will clear all locally saved checkmarks in this browser and reset the progress bar to 0%.</p>
+      <div class="modal-actions">
+        <button id="cancelResetBtn" type="button" class="btn btn-cancel">Cancel</button>
+        <button id="confirmResetBtn" type="button" class="btn btn-danger">Yes, Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       VANILLA JAVASCRIPT (TABS, FILTERS, PROGRESS, LOCALSTORAGE)
+       ===================================================================== -->
+  <script>
+    (function () {
+      const STORAGE_KEY = 'bqm_playbook_v3_tasks';
+
+      const OWNER_INFO = {
+        p1: { label: 'Pair 1: Drew & Phoebe', cls: 'pill-p1' },
+        p2: { label: 'Pair 2: Stefanie & Alice', cls: 'pill-p2' },
+        p3: { label: 'Pair 3: Xiao Ai & Anne', cls: 'pill-p3' },
+        allteam: { label: 'All Pairs', cls: 'pill-all' }
+      };
+
+      const SPRINTS = [
+        {
+          id: 's1',
+          headCls: 's1',
+          title: 'Sprint 1: Data Lock, Audit & Baseline Pipeline',
+          dates: 'Tue, Nov 24 – Sat, Nov 28',
+          goal: 'Lock verified 144-month data, run & sanity-check baseline CAPM code, and align all 6 members at our Sat, Nov 28 kickoff.',
+          tasks: [
+            {
+              id: 't1',
+              due: 'Due Nov 27',
+              owners: ['p1'],
+              tag: 'Data + Audit',
+              title: 'Download 144 monthly dividend-adjusted returns (Nov 2014–Oct 2026) for all 13 funds + VOO (Yahoo Finance) and TB3MS (FRED); Phoebe cross-checks against a second source and confirms the Part A 2026 AUM / family-cap selection rule.',
+              desc: 'Verify identical monthly dates across all 15 series, zero missing distributions, and clean share-class documentation.'
+            },
+            {
+              id: 't2',
+              due: 'Due Nov 28',
+              owners: ['p1'],
+              tag: 'Baseline Code',
+              title: 'Build and run baseline R/Python pipeline (CAGR, volatility, Sharpe, max drawdown, CAPM with Newey-West SEs) and export verified CSV/summary tables for Pairs 2 & 3.',
+              desc: 'Convert FRED TB3MS to monthly rate and deliver clean outputs so Pairs 2 & 3 can immediately start Part B and visuals.'
+            },
+            {
+              id: 't3',
+              due: 'Due Nov 28',
+              owners: ['p3'],
+              tag: 'Sanity Check + Frame',
+              title: 'Xiao Ai runs a 15-min independent sanity check on Pair 1’s baseline CAPM/Newey-West outputs; Anne drafts the Asia investor framing and clean slide template.',
+              desc: 'Double-check Newey-West SE lags, monthly × 12 alpha annualization, and set up our executive narrative structure.'
+            },
+            {
+              id: 't4',
+              due: 'Due Nov 28',
+              owners: ['p2'],
+              tag: 'Ops + Frictions',
+              title: 'Alice sets up shared Google Sheet tracker, 10-page report template, and team AI-prompt log; Stefanie begins auditing front-end loads, institutional minimums, and top holdings (NVIDIA weights in FDGRX/SEEGX).',
+              desc: 'Establish live tracking across laptops and capture real-world investor frictions early.'
+            },
+            {
+              id: 't5',
+              due: 'Sat, Nov 28',
+              owners: ['allteam'],
+              tag: '30-MIN KICKOFF',
+              milestone: true,
+              title: 'Hold 30-Minute Data-Finalization & Discussion Kickoff meeting to lock numbers and align on initial findings.',
+              desc: 'Led by Pair 1 (Drew & Phoebe) and Pair 2 (Alice) with all 6 members reviewing baseline results together.'
+            }
+          ]
+        },
+        {
+          id: 's2',
+          headCls: 's2',
+          title: 'Sprint 2: Full Analysis, Visuals, Lesson & Draft Results',
+          dates: 'Sun, Nov 29 – Mon, Dec 7',
+          goal: 'Complete Part A/B analysis & charts, freeze Draft Results on Fri Dec 4 ahead of AA2, and attend Xiao Ai’s 1-hour methodology lesson.',
+          tasks: [
+            {
+              id: 't6',
+              due: 'Due Dec 2',
+              owners: ['p1'],
+              tag: 'Part A (RQ1)',
+              title: 'Finalize Part A (RQ1) regression tables, verify zero missing months/split errors, and draft data/methodology audit notes.',
+              desc: 'Deliver publication-ready alpha, beta, 95% CI, Sharpe, and CAGR tables for all 7 active equity funds vs. VOO.'
+            },
+            {
+              id: 't7',
+              due: 'Due Dec 3',
+              owners: ['p2'],
+              tag: 'Part B + Limitations',
+              title: 'Complete Part B (RQ2) diversifier comparison (beta, volatility, Sharpe, max drawdown vs. VOO) and draft the full Limitations matrix.',
+              desc: 'Evaluate ABALX, AMECX, PIMIX, AQMIX, QMNIX, and QAI on downside protection; document biases, loads, minimums, and tech concentration.'
+            },
+            {
+              id: 't8',
+              due: 'Due Dec 4',
+              owners: ['p3'],
+              tag: 'Visuals + Power',
+              title: 'Produce publication-ready visuals (Growth-of-$1 vs. VOO, Alpha 95% CI forest plot, Part B drawdown/beta chart) and plain-English statistical takeaways (power & ~30% multiple-testing flag).',
+              desc: 'Ensure every chart is honest, legible, and immediately understandable for a non-finance IMBA audience.'
+            },
+            {
+              id: 't9',
+              due: 'Fri, Dec 4',
+              owners: ['allteam'],
+              tag: 'DRAFT FREEZE',
+              milestone: true,
+              title: 'INTERNAL DRAFT FREEZE: Assemble complete draft results package (tables, charts, bulleted findings) ahead of the Sun, Dec 6 AA2 (RFM) deadline.',
+              desc: 'Protects Sat–Sun (Dec 5–6) so AA2 never collides with our Monday Draft Results submission.'
+            },
+            {
+              id: 't10',
+              due: 'By Sat, Dec 5',
+              owners: ['p3', 'allteam'],
+              tag: '1-HR LESSON',
+              milestone: true,
+              title: 'Attend Xiao Ai’s 1-Hour Project Methodology Lesson covering CAPM tables, 95% CIs, Newey-West SEs, and managerial interpretation.',
+              desc: 'Builds team-wide confidence for Dec 14 Q&A and doubles as prep for the Dec 21 closed-book Final Interpretation Exam.'
+            },
+            {
+              id: 't11',
+              due: 'Mon, Dec 7',
+              owners: ['allteam'],
+              tag: 'WEEK 14 DUE',
+              milestone: true,
+              title: 'Submit Draft Results (Week 14) and capture peer-review & Dr. Chou’s feedback in class.',
+              desc: 'Log every analytical or presentation suggestion for rapid refinement in Sprint 3.'
+            }
+          ]
+        },
+        {
+          id: 's3',
+          headCls: 's3',
+          title: 'Sprint 3: Slide Deck, 100-Word Scripts & Final Presentation',
+          dates: 'Tue, Dec 8 – Mon, Dec 14',
+          goal: 'Incorporate peer feedback, lock crisp slides and strict ≤100-word speaker scripts, rehearse twice, and deliver a sharp presentation.',
+          tasks: [
+            {
+              id: 't12',
+              due: 'Due Dec 9',
+              owners: ['p1', 'p2'],
+              tag: 'Refinement',
+              title: 'Incorporate Week 14 peer-review feedback into CAPM tables, Part B metrics, and limitations/recommendations.',
+              desc: 'Freeze final numbers and disclosures so slides and written report stay 100% consistent.'
+            },
+            {
+              id: 't13',
+              due: 'Due Dec 10',
+              owners: ['p3'],
+              tag: 'Slides + ≤100 Words',
+              title: 'Finalize the executive slide deck and edit all 6 speaking scripts to strictly ≤100 words per speaker (~600 words total).',
+              desc: 'Ensure clean visual hierarchy, zero-fluff speaker handoffs, and backup Q&A slides.'
+            },
+            {
+              id: 't14',
+              due: 'Dec 10 & Dec 12',
+              owners: ['allteam'],
+              tag: 'Rehearsals',
+              title: 'Complete two timed rehearsals (stopwatch check under 10 minutes with crisp zero-fluff handoffs) plus 10-minute Q&A drills.',
+              desc: 'Verify pacing (~5–6 min speaking + buffer) and practice concise answers on alpha, power, Part B, and limitations.'
+            },
+            {
+              id: 't15',
+              due: 'Mon, Dec 14',
+              owners: ['allteam'],
+              tag: 'DELIVERABLE · 15%',
+              milestone: true,
+              title: 'DELIVER FINAL PRESENTATION (Week 15 — 15% of course grade) and submit final slide deck.',
+              desc: 'Present to Dr. Chou and class; record any final comments to polish the written report.'
+            }
+          ]
+        },
+        {
+          id: 's4',
+          headCls: 's4',
+          title: 'Sprint 4: Final ≤10-Page Report, Code/AI Appendix & Exam Buffer',
+          dates: 'Tue, Dec 15 – Mon, Dec 21',
+          goal: 'Complete the ≤10-page report, clean code, and AI appendix by Fri Dec 18 so Dec 19–20 stays 100% clear for closed-book exam study.',
+          tasks: [
+            {
+              id: 't16',
+              due: 'Due Dec 17',
+              owners: ['allteam'],
+              tag: 'Report Drafting',
+              title: 'Write final polished prose for assigned report sections (Anne p. 1; Phoebe pp. 2–3; Drew pp. 4–5; Xiao Ai p. 6; Stefanie pp. 7–8; Alice pp. 9–10).',
+              desc: 'Translate presentation findings and Q&A insights into crisp, evidence-based managerial prose.'
+            },
+            {
+              id: 't17',
+              due: 'Due Dec 17',
+              owners: ['p1'],
+              tag: 'Code QA',
+              title: 'Clean, comment, and verify reproducibility of the R/Python analysis code and final numbers tables.',
+              desc: 'Confirm the script runs cleanly end-to-end from the locked 15-series dataset.'
+            },
+            {
+              id: 't18',
+              due: 'Due Dec 18',
+              owners: ['p2'],
+              tag: '≤10 pp + AI Log',
+              title: 'Merge all sections, enforce the strict ≤10-page report limit, unify charts/formatting, and compile the mandatory AI-Use Statement & Prompt Appendix.',
+              desc: 'Standardize decimals, chart labels, and voice across all 6 writers; verify full AI disclosure compliance.'
+            },
+            {
+              id: 't19',
+              due: 'Fri, Dec 18',
+              owners: ['allteam'],
+              tag: 'HARD FREEZE',
+              milestone: true,
+              title: 'INTERNAL HARD FREEZE: Complete final proofread and submission package so the weekend (Dec 19–20) is 100% free for Final Exam study.',
+              desc: 'Upload early to eliminate any −10%/day late penalty risk and protect exam preparation.'
+            },
+            {
+              id: 't20',
+              due: 'Mon, Dec 21',
+              owners: ['allteam'],
+              tag: 'DELIVERABLE · 55%',
+              milestone: true,
+              title: 'Submit Final Written Report (25% of grade) + Code + AI Appendix, and sit the Closed-Book Final Interpretation Exam (30% of grade).',
+              desc: 'Verify Moodle upload receipt for the complete project package and complete the Week 16 exam.'
+            }
+          ]
+        }
+      ];
+
+      // State
+      let state = {
+        activeTab: 'goal',
+        sprintFilter: 'all',
+        ownerFilter: 'all',
+        hideDone: false,
+        completed: {}
+      };
+
+      function loadState() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            state = Object.assign(state, parsed);
+          }
+        } catch (e) {
+          // Ignore storage restrictions
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {
+          // Ignore storage restrictions
+        }
+      }
+
+      function renderProgress() {
+        let total = 0;
+        let done = 0;
+        SPRINTS.forEach(s => {
+          s.tasks.forEach(t => {
+            total++;
+            if (state.completed[t.id]) done++;
+          });
+        });
+        const pct = total ? Math.round((done / total) * 100) : 0;
+        document.getElementById('progressCount').textContent = done + ' / ' + total + ' tasks completed (' + pct + '%)';
+        document.getElementById('progressFill').style.width = pct + '%';
+      }
+
+      function renderTabs() {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          const active = btn.getAttribute('data-tab') === state.activeTab;
+          btn.classList.toggle('active', active);
+          btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+          panel.classList.toggle('active', panel.id === 'tab-' + state.activeTab);
+        });
+      }
+
+      function renderFilters() {
+        document.querySelectorAll('[data-sprint]').forEach(btn => {
+          btn.classList.toggle('active-sprint', btn.getAttribute('data-sprint') === state.sprintFilter);
+        });
+        document.querySelectorAll('[data-owner]').forEach(btn => {
+          btn.classList.toggle('active-owner', btn.getAttribute('data-owner') === state.ownerFilter);
+        });
+        document.getElementById('hideDoneToggle').checked = !!state.hideDone;
+      }
+
+      function renderSprints() {
+        const container = document.getElementById('sprintContainer');
+        const visibleSprints = SPRINTS.filter(s => state.sprintFilter === 'all' || s.id === state.sprintFilter);
+
+        container.innerHTML = visibleSprints.map(sprint => {
+          const sTotal = sprint.tasks.length;
+          const sDone = sprint.tasks.filter(t => state.completed[t.id]).length;
+          const sPct = sTotal ? Math.round((sDone / sTotal) * 100) : 0;
+
+          const filtered = sprint.tasks.filter(t => {
+            if (state.ownerFilter !== 'all' && !t.owners.includes(state.ownerFilter)) return false;
+            if (state.hideDone && state.completed[t.id]) return false;
+            return true;
+          });
+
+          const itemsHtml = filtered.length === 0
+            ? '<div class="empty-state">No tasks match the active filter in this sprint.</div>'
+            : filtered.map(t => {
+                const isDone = !!state.completed[t.id];
+                const ownerPills = t.owners.map(key => {
+                  const info = OWNER_INFO[key];
+                  return '<span class="pill ' + info.cls + '">' + info.label + '</span>';
+                }).join('');
+                const tagCls = t.milestone ? 'pill-rose' : 'pill-neutral';
+
+                return (
+                  '<label class="task-item ' + (isDone ? 'done' : '') + '">' +
+                    '<input type="checkbox" class="task-checkbox" data-task="' + t.id + '" ' + (isDone ? 'checked' : '') + ' />' +
+                    '<div class="task-body">' +
+                      '<div class="task-meta">' +
+                        '<span class="pill pill-dark">' + t.due + '</span>' +
+                        ownerPills +
+                        '<span class="pill ' + tagCls + '">' + t.tag + '</span>' +
+                      '</div>' +
+                      '<div class="task-title">' + t.title + '</div>' +
+                      '<div class="task-desc">' + t.desc + '</div>' +
+                    '</div>' +
+                  '</label>'
+                );
+              }).join('');
+
+          return (
+            '<div class="sprint-card">' +
+              '<div class="sprint-head ' + sprint.headCls + '">' +
+                '<div>' +
+                  '<div class="sprint-title-row">' +
+                    '<h3>' + sprint.title + '</h3>' +
+                    '<span class="pill pill-neutral" style="background:#fff;">' + sprint.dates + '</span>' +
+                  '</div>' +
+                  '<p class="sprint-goal">' + sprint.goal + '</p>' +
+                '</div>' +
+                '<div class="sprint-stat">' +
+                  '<span class="sprint-stat-text">' + sDone + ' / ' + sTotal + ' Done</span>' +
+                  '<div class="mini-track"><div class="mini-fill" style="width:' + sPct + '%;"></div></div>' +
+                '</div>' +
+              '</div>' +
+              '<div class="task-list">' + itemsHtml + '</div>' +
+            '</div>'
+          );
+        }).join('');
+
+        container.querySelectorAll('input[data-task]').forEach(cb => {
+          cb.addEventListener('change', function (e) {
+            const id = e.target.getAttribute('data-task');
+            state.completed[id] = e.target.checked;
+            saveState();
+            renderProgress();
+            renderSprints();
+          });
+        });
+      }
+
+      function renderAll() {
+        renderProgress();
+        renderTabs();
+        renderFilters();
+        renderSprints();
+      }
+
+      // Bindings
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          state.activeTab = btn.getAttribute('data-tab');
+          saveState();
+          renderTabs();
+        });
+      });
+
+      document.querySelectorAll('[data-sprint]').forEach(btn => {
+        btn.addEventListener('click', function () {
+          state.sprintFilter = btn.getAttribute('data-sprint');
+          saveState();
+          renderFilters();
+          renderSprints();
+        });
+      });
+
+      document.querySelectorAll('[data-owner]').forEach(btn => {
+        btn.addEventListener('click', function () {
+          state.ownerFilter = btn.getAttribute('data-owner');
+          saveState();
+          renderFilters();
+          renderSprints();
+        });
+      });
+
+      document.getElementById('hideDoneToggle').addEventListener('change', function (e) {
+        state.hideDone = e.target.checked;
+        saveState();
+        renderSprints();
+      });
+
+      document.getElementById('printBtn').addEventListener('click', function () {
+        window.print();
+      });
+
+      const modal = document.getElementById('resetModal');
+      document.getElementById('openResetBtn').addEventListener('click', function () {
+        modal.classList.add('open');
+      });
+      document.getElementById('cancelResetBtn').addEventListener('click', function () {
+        modal.classList.remove('open');
+      });
+      document.getElementById('confirmResetBtn').addEventListener('click', function () {
+        state.completed = {};
+        saveState();
+        renderAll();
+        modal.classList.remove('open');
+      });
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.classList.remove('open');
+      });
+
+      loadState();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
